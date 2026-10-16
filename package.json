@@ -1,0 +1,38 @@
+{
+  "name": "transmitir-tela",
+  "productName": "Transmitir Tela",
+  "version": "1.0.0",
+  "description": "Compartilhe a tela com amigos em salas persistentes, estilo Discord",
+  "main": "main.js",
+  "author": "Transmitir Tela",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --x64"
+  },
+  "devDependencies": {
+    "electron": "^39.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "com.transmitirtela.app",
+    "productName": "Transmitir Tela",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["main.js", "preload.js", "renderer/**", "assets/**", "package.json"],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "build/icon.png",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Transmitir Tela",
+      "language": "1046",
+      "artifactName": "Setup-Transmitir-Tela.exe"
+    }
+  }
+}

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: mediastream:; connect-src *">
+<title>Transmitir Tela</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <nav id="side">
+    <div class="sh">📡 Transmitir Tela<button class="ic" id="cfgBtn" title="Configurações" style="margin-left:auto">⚙</button></div>
+    <div class="scroll">
+      <div id="joinBox">
+        <div class="cat">Sala</div>
+        <div class="pad">
+          <div class="row"><input id="roomIn" placeholder="Código da sala" autocomplete="off" maxlength="12" style="flex:1;min-width:0;font-family:ui-monospace,Consolas,monospace;text-transform:uppercase"><button class="btn" id="enter">Entrar</button></div>
+          <button class="btn sec" id="create" style="width:100%;margin-top:8px">＋ Criar sala nova</button>
+          <button class="btn sec hidden" id="last" style="width:100%;margin-top:8px"></button>
+          <div class="hint" style="margin-top:8px">A sala continua aberta com o mesmo código enquanto houver alguém nela, mesmo que ninguém esteja transmitindo.</div>
+        </div>
+      </div>
+      <div id="roomBox" class="hidden">
+        <div class="cat">Sala</div>
+        <div class="pad">
+          <div class="hint">Código da sala. Mande para os amigos.</div>
+          <div class="row"><b id="room">—</b><button class="btn sec" id="cpRoom">Copiar</button></div>
+          <button class="btn sec" id="exit" style="width:100%;margin-top:8px">Sair da sala</button>
+        </div>
+        <div class="cat">Compartilhar</div>
+        <div class="pad cfg">
+          <label>Resolução <select id="res"><option value="480">480p</option><option value="720" selected>720p</option><option value="1080">1080p</option><option value="0">Máxima</option></select></label>
+          <label>Fluidez <select id="fps"><option value="60">60 fps</option><option value="30" selected>30 fps</option><option value="15">15 fps</option></select></label>
+          <label><span>Compartilhar áudio do PC</span><input type="checkbox" id="aud" checked></label>
+          <label title="Evita que os outros ouçam o próprio som de volta"><span>Silenciar os outros ao transmitir áudio</span><input type="checkbox" id="guard" checked></label>
+          <button class="btn" id="go">🖥 Compartilhar tela</button>
+          <div class="hint">Qualquer pessoa na sala pode compartilhar, ao mesmo tempo. Resolução e fluidez mudam ao vivo.</div>
+        </div>
+      </div>
+      <div class="cat">Pessoas na sala</div>
+      <div id="users" class="pad"></div>
+    </div>
+    <div class="me">
+      <span class="av" id="myav"></span>
+      <div class="mi"><input id="me" placeholder="Seu nome" maxlength="20"><div class="st"><i class="dot" id="dot"></i><span id="st">Fora de sala</span></div></div>
+    </div>
+  </nav>
+
+  <main id="stage">
+    <div class="top"><span class="hash">#</span><b>transmissão</b><span id="info"></span></div>
+    <div id="empty"><div><div class="big" id="eIco">🖥</div><div id="eTxt"></div></div></div>
+    <div id="tiles" class="hidden"></div>
+    <div class="bar hidden" id="bar">
+      <span>🔊</span><input type="range" id="vol" min="0" max="1" step=".05" value="1" title="Volume">
+      <select id="vq" title="Qualidade de recepção"><option value="0">Auto</option><option value="1080">1080p</option><option value="720">720p</option><option value="480">480p</option></select>
+      <button class="cb" id="pop" title="Pop-up flutuante">🪟</button>
+    </div>
+  </main>
+
+  <aside id="chatp">
+    <div class="top"><span class="hash">#</span><b>chat-geral</b></div>
+    <div id="msgs"></div>
+    <div class="send"><input id="ci" placeholder="Enviar mensagem em #chat-geral" maxlength="500" autocomplete="off" disabled><button class="btn" id="cs" disabled>Enviar</button></div>
+  </aside>
+</div>
+
+<dialog id="picker">
+  <b>O que você quer compartilhar?</b>
+  <div class="seg" style="margin-top:10px"><button id="pkS" class="on">Telas</button><button id="pkW">Janelas</button></div>
+  <div class="pgrid" id="pickList"></div>
+  <div class="row" style="justify-content:flex-end"><button class="btn sec" id="pickCancel">Cancelar</button></div>
+</dialog>
+
+<dialog id="cfgDlg">
+  <b>Configurações</b>
+  <div class="pad" style="padding:12px 0 0">
+    <label class="hint" for="sigUrl">Servidor de códigos (ntfy)</label>
+    <input id="sigUrl" style="width:100%;margin-top:4px" placeholder="https://ntfy.sh">
+    <div class="hint" style="margin-top:6px">Usado só para as pessoas se encontrarem pelo código. Vídeo, áudio e chat vão direto entre vocês. Deixe https://ntfy.sh ou aponte para um servidor ntfy seu. Todos da sala precisam usar o mesmo.</div>
+  </div>
+  <div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn sec" id="cfgCancel">Cancelar</button><button class="btn" id="cfgSave">Salvar</button></div>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
