@@ -32,6 +32,7 @@
         <div class="pad cfg">
           <label>Resolução <select id="res"><option value="480">480p</option><option value="720" selected>720p</option><option value="1080">1080p</option><option value="0">Máxima</option></select></label>
           <label>Fluidez <select id="fps"><option value="60">60 fps</option><option value="30" selected>30 fps</option><option value="15">15 fps</option></select></label>
+          <label title="Nitidez mantém a imagem limpa e reduz os quadros se a rede apertar. Fluidez mantém os quadros e pode embaçar.">Prioridade <select id="pri"><option value="detail">Nitidez</option><option value="motion">Fluidez</option></select></label>
           <label><span>Compartilhar áudio do PC</span><input type="checkbox" id="aud" checked></label>
           <label title="Evita que os outros ouçam o próprio som de volta"><span>Silenciar os outros ao transmitir áudio</span><input type="checkbox" id="guard" checked></label>
           <button class="btn" id="go">🖥 Compartilhar tela</button>
@@ -42,7 +43,7 @@
       <div id="users" class="pad"></div>
     </div>
     <div class="me">
-      <span class="av" id="myav"></span>
+      <span class="av" id="myav" title="Personalizar perfil" style="cursor:pointer"></span>
       <div class="mi"><input id="me" placeholder="Seu nome" maxlength="20"><div class="st"><i class="dot" id="dot"></i><span id="st">Fora de sala</span></div></div>
     </div>
   </nav>
@@ -52,7 +53,7 @@
     <div id="empty"><div><div class="big" id="eIco">🖥</div><div id="eTxt"></div></div></div>
     <div id="tiles" class="hidden"></div>
     <div class="bar hidden" id="bar">
-      <span>🔊</span><input type="range" id="vol" min="0" max="1" step=".05" value="1" title="Volume">
+      <button class="cb" id="mic" title="Ativar microfone">🎤</button><span>🔊</span><input type="range" id="vol" min="0" max="1" step=".05" value="1" title="Volume">
       <select id="vq" title="Qualidade de recepção"><option value="0">Auto</option><option value="1080">1080p</option><option value="720">720p</option><option value="480">480p</option></select>
       <button class="cb" id="pop" title="Pop-up flutuante">🪟</button>
     </div>
@@ -73,14 +74,35 @@
 </dialog>
 
 <dialog id="cfgDlg">
-  <b>Configurações</b>
-  <div class="pad" style="padding:12px 0 0">
+  <div class="tabs"><button class="tab on" data-tab="opt">Opções</button><button class="tab" data-tab="per">Personalização</button></div>
+  <section class="tp" id="tp-opt">
+    <div class="grp">Áudio</div>
+    <label class="fr"><span>Microfone</span><select id="micSel"></select></label>
+    <div class="row"><div class="meter"><i id="meter"></i></div><button class="btn sec" id="mTest">Testar microfone</button></div>
+    <label class="fr"><span>Cancelamento de eco</span><input type="checkbox" id="mEC" checked></label>
+    <label class="fr"><span>Supressão de ruído</span><input type="checkbox" id="mNS" checked></label>
+    <label class="fr"><span>Ganho automático</span><input type="checkbox" id="mAG" checked></label>
+    <div class="grp">Aparência</div>
+    <label class="fr"><span>Modo escuro AMOLED (preto puro)</span><input type="checkbox" id="amo"></label>
+    <label class="fr"><span>Mostrar cronômetro da sala</span><input type="checkbox" id="tmr" checked></label>
+    <div class="grp">Avançado</div>
     <label class="hint" for="sigUrl">Servidor de códigos (ntfy)</label>
-    <input id="sigUrl" style="width:100%;margin-top:4px" placeholder="https://ntfy.sh">
-    <div class="hint" style="margin-top:6px">Usado só para as pessoas se encontrarem pelo código. Vídeo, áudio e chat vão direto entre vocês. Deixe https://ntfy.sh ou aponte para um servidor ntfy seu. Todos da sala precisam usar o mesmo.</div>
-  </div>
-  <div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn sec" id="cfgCancel">Cancelar</button><button class="btn" id="cfgSave">Salvar</button></div>
+    <input id="sigUrl" placeholder="https://ntfy.sh">
+    <div class="hint">Usado só para as pessoas se encontrarem pelo código. Vídeo, áudio e chat vão direto entre vocês. Deixe https://ntfy.sh ou aponte para um servidor ntfy seu. Todos da sala precisam usar o mesmo.</div>
+  </section>
+  <section class="tp hidden" id="tp-per">
+    <div class="grp">Perfil</div>
+    <div class="row"><span class="av big" id="pav"></span><div style="flex:1;min-width:0"><label class="hint" for="pName">Nome</label><input id="pName" maxlength="20" style="width:100%" placeholder="Seu nome"></div></div>
+    <div class="row"><button class="btn sec" id="pPick">Escolher foto ou GIF</button><button class="btn sec" id="pDel">Remover foto</button></div>
+    <input type="file" id="pFile" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden">
+    <div class="hint" id="pMsg">Fotos são recortadas e reduzidas automaticamente. GIFs animados podem ter até 1 MB. Todos na sala veem sua foto.</div>
+    <div class="grp">Em breve</div>
+    <div class="soon">Mais opções de personalização chegam nas próximas versões.</div>
+  </section>
+  <div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn" id="cfgSave">Concluído</button></div>
 </dialog>
+
+<div id="ctx" class="ctx hidden" role="menu"></div>
 
 <script src="app.js"></script>
 </body>

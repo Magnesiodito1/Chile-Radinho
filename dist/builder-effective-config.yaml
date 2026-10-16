@@ -1,0 +1,29 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.transmitirtela.app
+productName: Transmitir Tela
+files:
+  - filter:
+      - main.js
+      - preload.js
+      - renderer/**
+      - assets/**
+      - package.json
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: build/icon.png
+  signAndEditExecutable: false
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Transmitir Tela
+  language: '1046'
+  artifactName: Setup-Transmitir-Tela.exe
+electronVersion: 39.8.10

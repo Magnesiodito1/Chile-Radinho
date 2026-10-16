@@ -1,7 +1,7 @@
 {
   "name": "transmitir-tela",
   "productName": "Transmitir Tela",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Compartilhe a tela com amigos em salas persistentes, estilo Discord",
   "main": "main.js",
   "author": "Transmitir Tela",

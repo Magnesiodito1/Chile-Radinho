@@ -38,8 +38,9 @@ app.on('second-instance', () => {
 app.whenReady().then(() => {
   const ses = session.defaultSession;
 
-  ses.setPermissionRequestHandler((wc, permission, cb) =>
-    cb(['media', 'display-capture', 'fullscreen', 'clipboard-sanitized-write', 'window-management'].includes(permission)));
+  const ALLOW = ['media', 'display-capture', 'fullscreen', 'clipboard-sanitized-write', 'window-management'];
+  ses.setPermissionRequestHandler((wc, permission, cb) => cb(ALLOW.includes(permission)));
+  ses.setPermissionCheckHandler((wc, permission) => ALLOW.includes(permission)); // necessário para listar os nomes dos microfones
 
   // O app mostra o próprio seletor; aqui só entregamos a fonte escolhida.
   ses.setDisplayMediaRequestHandler((request, callback) => {
